@@ -2,8 +2,8 @@
 Contributors: justinscheetz
 Donate link: https://paypal.me/justinscheetzpaypal
 Tags: resume, resumes, skills, education, experience
-Requires at least: 4.7
-Tested up to: 6.5.2
+Requires at least: 5.0
+Tested up to: 6.8.1
 Stable tag: 3.2
 Requires PHP: 7.4
 License: GPLv2 or later
