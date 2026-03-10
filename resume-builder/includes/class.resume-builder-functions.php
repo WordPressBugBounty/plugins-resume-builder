@@ -21,31 +21,4 @@ class Resume_Builder_Functions {
         return $rgb;
     }
 
-    public static function parse_readme_changelog( $readme_url = false, $title = false ){
-
-        ob_start();
-        $readme_url = ( !$readme_url ? RBUILDER_DIR . 'readme.txt' : $readme_url );
-        include( $readme_url );
-        $readme = ob_get_clean();
-        
-        $readme = make_clickable(esc_html($readme));
-        $readme = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $readme);
-
-        $readme = explode( '== Changelog ==', $readme );
-        $readme = explode( '== Upgrade Notice ==', $readme[1] );
-        $readme = $readme[0];
-
-        $readme = preg_replace( '/\*\*(.*?)\*\*/', '<strong>\\1</strong>', $readme);
-        $readme = preg_replace( '/\*(.*?)\*/', '<em>\\1</em>', $readme);
-
-        $whats_new_title = '<h3>' . ( $title ? esc_html( $title ) : apply_filters( 'rbuilder_whats_new_title', esc_html__( "What's new?", "resume-builder" ) ) ) . '</h3>';
-        $readme = preg_replace('/= (.*?) =/', $whats_new_title, $readme);
-        $readme = preg_replace("/\*+(.*)?/i","<ul class='rbuilder-whatsnew-list'><li>$1</li></ul>",$readme);
-        $readme = preg_replace("/(\<\/ul\>\n(.*)\<ul class=\'rbuilder-whatsnew-list\'\>*)+/","",$readme);
-        $readme = explode( $whats_new_title, $readme );
-        $readme = $whats_new_title . $readme[1];
-        return $readme;
-
-    }
-
 }

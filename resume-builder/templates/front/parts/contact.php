@@ -2,6 +2,8 @@
 
 global $resume, $compact;
 
+$contact_info_html = '';
+
 if ( $resume['contact']['email'] || $resume['contact']['phone'] || $resume['contact']['website'] || $resume['contact']['address'] ):
 	
 	$rand_rbt = wp_rand( 100,999 );

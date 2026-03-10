@@ -22,7 +22,7 @@ class Resume_Builder_Resumes {
 		$display_settings = [
 			'template' => 'default',
 			'text_color' => '#000000',
-			'highlight_color' => '#2271b1',
+			'highlight_color' => '#0074FF',
 			'star_color' => '#ffA500',
 			'wrapper_style' => 'full',
 			'max_width' => '100',

@@ -7,7 +7,7 @@ Plugin URI:     https://wordpress.org/plugins/resume-builder/
 Description:    Create beautiful resumes with ease.
 Author:         Justin Scheetz
 Author URI:     https://resumebuilder.studio
-Version:        3.2
+Version:        3.3
 Text Domain:    resume-builder
 Domain Path:    languages
 License:        GPL2
@@ -29,13 +29,18 @@ along with Resume Builder. If not, see http://www.gnu.org/licenses/.
 
 // Plugin Version Definition
 if (! defined('RBUILDER_VERSION')) {
-    define('RBUILDER_VERSION', '3.2' );
+    define('RBUILDER_VERSION', '3.3' );
 }
 
 // Exit if accessed directly.
 if (! defined('ABSPATH')) {
     exit;
 }
+
+function create_block_resume_block_block_init() {
+    register_block_type( plugin_dir_path(__FILE__) . '/includes/blocks/resume-block/build' );
+}
+add_action( 'init', 'create_block_resume_block_block_init' );
 
 if (! class_exists('Resume_Builder_Plugin')) :
 
@@ -67,6 +72,7 @@ final class Resume_Builder_Plugin
             self::$instance->core = new Resume_Builder_Core();
             self::$instance->resume_shortcodes = new Resume_Builder_Shortcodes();
             self::$instance->widgets = new Resume_Builder_Widgets();
+            self::$instance->readme_parser = new Resume_Builder_Readme_Parser();
 
             if (is_admin()):
                 self::$instance->admin_enqueues = new Resume_Builder_Admin_Enqueues();
@@ -118,6 +124,13 @@ final class Resume_Builder_Plugin
         if (! defined('RBUILDER_AJAX_URL')) {
             define('RBUILDER_AJAX_URL', admin_url('admin-ajax.php'));
         }
+        
+        // Mostly for development purposes
+        define('RBUILDER_HMR_HOST', 'http://localhost:5173');
+        define('RBUILDER_ASSETS_PATH', RBUILDER_DIR . '/dist');
+        define('RBUILDER_ASSETS_URI', RBUILDER_URL . '/dist');
+        define('RBUILDER_SRC_PATH', RBUILDER_DIR . '/src');
+        define('RBUILDER_SRC_URI', RBUILDER_URL . '/src');
 
     }
 
@@ -139,6 +152,7 @@ final class Resume_Builder_Plugin
         require_once RBUILDER_DIR . 'includes/class.resume-builder-admin-menus.php';
         require_once RBUILDER_DIR . 'includes/class.resume-builder-shortcodes.php';
         require_once RBUILDER_DIR . 'includes/class.resume-builder-widgets.php';
+        require_once RBUILDER_DIR . 'includes/class.resume-builder-readme-parser.php';
         require_once RBUILDER_DIR . 'includes/api.php';
     }
 

@@ -2,9 +2,9 @@
 Contributors: justinscheetz
 Donate link: https://paypal.me/justinscheetzpaypal
 Tags: resume, resumes, skills, education, experience
-Requires at least: 5.0
-Tested up to: 6.8.1
-Stable tag: 3.2
+Requires at least: 4.7
+Tested up to: 6.9.2
+Stable tag: 3.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -75,10 +75,15 @@ Use a plugin like [Custom Sidebars](https://wordpress.org/plugins/custom-sidebar
 
 == Upgrade Notice ==
 
-= 3.2 =
-Security updates, bug fixes, and more. Resume Builder is back!
+= 3.3 =
+Bug fixes and a UI refresh.
 
 == Changelog ==
+
+= 3.3 =
+* **NEW:** Back-end UI refresh.
+* **NEW:** Added a Gutenberg block to add a resume without needing the shortcode.
+* **FIX:** Bug fixes throughout.
 
 = 3.2 =
 * **NEW:** Resume Builder is back!

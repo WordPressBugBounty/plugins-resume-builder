@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/resume-block",
+  "version": "0.1.0",
+  "title": "Resume Builder",
+  "category": "widgets",
+  "description": "Display a resume from the Resume Builder plugin.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "resume": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "textdomain": "resume-block",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  "editorStyle": "file:./index.css"
+}

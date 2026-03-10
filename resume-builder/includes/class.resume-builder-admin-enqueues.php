@@ -31,19 +31,40 @@ class Resume_Builder_Admin_Enqueues
     public function admin_enqueues($hook)
     {
         if (in_array($hook, ['toplevel_page_rbuilder_main','resumes_page_rbuilder_welcome'])) {
+            
+            $readme = new Resume_Builder_Readme_Parser( RBUILDER_DIR . '/readme.txt' );
+            $version = $readme->stable_tag;
+            $changelog = $readme->changelog;
+            
+            foreach( $changelog[$version] as $item ){
+                $items[] = wp_kses_post( str_replace( ['NEW: ', 'FIX: ', 'TWEAK: '], ['<span class="rb-changelog-new">NEW</span>','<span class="rb-changelog-fix">FIX</span>','<span class="rb-changelog-tweak">TWEAK</span>'], $item ) );
+            }
+            
+            $changelog_data = (object)[
+                'version' => $version,
+                'items' => $items
+            ];
         
             $_rbuilder_settings = get_option( 'rbuilder_settings' );
             $rbuilder_js_vars = array(
                 'rest_url' => get_rest_url(),
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce( 'wp_rest' ),
+                'plugin_url' => RBUILDER_URL,
+                'wp_nonce' => wp_create_nonce( 'wp_rest' ),
+                'rb_nonce' => wp_create_nonce( 'rb_edit_resumes' ),
                 'display_defaults' => Resume_Builder_Resumes::default_display_settings(),
+                'changelog_data' => $changelog_data,
                 
+                'i18n_search' => __('Search', 'resume-builder'),
+                'i18n_trash' => __('Trash', 'resume-builder'),
+                'i18n_trashed' => __('Trashed', 'resume-builder'),
+                'i18n_resumes' => __('Resumes', 'resume-builder'),
+                'i18n_published' => __('Published', 'resume-builder'),
                 'i18n_save_resume' => __('Save Resume', 'resume-builder'),
                 'i18n_go_back' => __('Go Back', 'resume-builder'),
                 'i18n_styling_options' => __('Styling Options', 'resume-builder'),
                 'i18n_introduction' => __('Introduction', 'resume-builder'),
-                'i18n_history' => __('History', 'resume-builder'),
+                'i18n_experience' => __('Experience', 'resume-builder'),
                 'i18n_heading' => __('Heading', 'resume-builder'),
                 'i18n_details' => __('Details', 'resume-builder'),
                 'i18n_text' => __('Text', 'resume-builder'),
@@ -95,9 +116,9 @@ class Resume_Builder_Admin_Enqueues
                 'i18n_required_fields' => __('Required Fields', 'resume-builder'),
                 'i18n_required_fields_desc' => __('"Name" and "Title" are required.', 'resume-builder'),
                 'i18n_okay' => __('Okay', 'resume-builder'),
-                'i18n_create_a_resume' => __('Create a Resume', 'resume-builder'),
+                'i18n_new_resume' => __('New Resume', 'resume-builder'),
                 'i18n_no_resumes_found' => __('No resumes found.', 'resume-builder'),
-                'i18n_untrash' => __('Untrash', 'resume-builder'),
+                'i18n_restore' => __('Restore', 'resume-builder'),
                 'i18n_delete' => __('Delete', 'resume-builder'),
                 'i18n_view' => __('View', 'resume-builder'),
                 'i18n_duplicate' => __('Duplicate', 'resume-builder'),
@@ -110,6 +131,7 @@ class Resume_Builder_Admin_Enqueues
                 'i18n_select_photo' => __( 'Select or Upload a photo for this resume', 'resume-builder' ),
                 'i18n_attachment' => __( 'Attachment', 'resume-builder' ),
                 'i18n_add_attachment' => __( 'Add Attachment', 'resume-builder' ),
+                'i18n_remove_attachment' => __( 'Remove Attachment', 'resume-builder' ),
                 'i18n_select_attachment' => __( 'Select or Upload a file attachment for this resume', 'resume-builder' ),
                 'i18n_attachment_button_text' => __( 'Attachment Button Text', 'resume-builder' ),
             );
@@ -124,7 +146,7 @@ class Resume_Builder_Admin_Enqueues
             wp_enqueue_media();
         
             // Resume Builder Admin Script
-            wp_register_script('rbuilder-functions', RBUILDER_URL . 'dist/main.js', array(), RBUILDER_VERSION, true);
+            wp_register_script('rbuilder-functions', RBUILDER_URL . 'dist/index.js', array(), RBUILDER_VERSION, true);
             wp_localize_script('rbuilder-functions', 'rbuilder_js_vars', $rbuilder_js_vars);
             wp_enqueue_script('rbuilder-functions');
             

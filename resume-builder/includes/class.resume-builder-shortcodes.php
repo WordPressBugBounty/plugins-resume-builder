@@ -26,7 +26,7 @@ class Resume_Builder_Shortcodes {
         add_shortcode( 'rb-resume-introduction', array($this, 'resume_introduction_shortcode') );
         add_shortcode( 'rb-resume-history', array($this, 'resume_history_shortcode') );
         add_shortcode( 'rb-resume-skills', array($this, 'resume_skills_shortcode') );
-
+        
     }
     
     public function get_resume( $resume_id ){
